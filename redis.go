@@ -24,9 +24,10 @@ func (t *TaskScheduler) DeleteItemFromSet(item string) error {
 	return nil
 }
 
-func (t *TaskScheduler) AddItemToQueue(startTime string, payload string) error {
-	if err := t.conn.RPush(t.ctx, fmt.Sprintf(queueKey, startTime), payload).Err(); err != nil {
+func (t *TaskScheduler) AddItemToQueue(key, payload string) error {
+	if err := t.conn.RPush(t.ctx, fmt.Sprintf(queueKey, key), payload).Err(); err != nil {
 		return err
 	}
 	return nil
 }
+

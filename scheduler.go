@@ -32,7 +32,8 @@ func (t *TaskScheduler) ProcessEvents() {
 			continue
 		}
 
-		if v := strings.Split(value, ":"); len(v) == 2 {
+		//site:id:timestamp
+		if v := strings.Split(value, ":"); len(v) == 3 {
 			timestampString := v[1]
 
 			timestamp, err := strconv.ParseInt(timestampString, 10, 64)
@@ -51,7 +52,10 @@ func (t *TaskScheduler) ProcessEvents() {
 					continue
 				}
 
-				if err = t.AddItemToQueue(strconv.Itoa(int(startTime.Unix())), v[0]); err != nil {
+				//v[0] is site
+				//v[1] is timestamp
+
+				if err = t.AddItemToQueue(v[0], v[1]); err != nil {
 					t.mu.Unlock()
 					log.Error("error adding item to queue: ", err)
 					continue
@@ -63,7 +67,6 @@ func (t *TaskScheduler) ProcessEvents() {
 		t.mu.Unlock()
 	}
 }
-
 
 func (t *TaskScheduler) Stop() {
 	t.cancel()
