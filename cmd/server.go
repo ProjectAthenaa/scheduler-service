@@ -18,6 +18,6 @@ func handleServer() {
 	connector.RegisterSchedulerServer(server, &connector.Server{})
 
 	if err = server.Serve(listener); err != nil {
-		log.Errorf(err)
+		log.Error(err)
 	}
 }

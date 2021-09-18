@@ -1,11 +1,11 @@
 package scheduler
 
 type Scheduler interface {
-	Jobs() []*Job
-	Schedule(job *Job) error
-	Stop() error
+	Stop()
+	ProcessEvents()
 }
 
 const (
-	jobsKey = "scheduler:jobs"
+	itemsKey = "zset:scheduled:items"
+	queueKey = "queue:%s"
 )
