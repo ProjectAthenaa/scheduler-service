@@ -2,6 +2,7 @@ package scheduler
 
 import (
 	"context"
+	"github.com/ProjectAthenaa/sonic-core/sonic/core"
 	"github.com/go-redis/redis/v8"
 	"github.com/prometheus/common/log"
 	"strconv"
@@ -14,6 +15,18 @@ type TaskScheduler struct {
 	cancel context.CancelFunc
 	conn   redis.UniversalClient
 	mu     *mutex
+}
+
+func NewScheduler() *TaskScheduler {
+	ctx, cancel := context.WithCancel(context.Background())
+	s := &TaskScheduler{
+		ctx:    ctx,
+		cancel: cancel,
+		conn:   core.Base.GetRedis("cache"),
+		mu:     NewMutex(ctx, core.Base.GetRedis("cache")),
+	}
+
+	return s
 }
 
 func (t *TaskScheduler) ProcessEvents() {
@@ -53,7 +66,7 @@ func (t *TaskScheduler) ProcessEvents() {
 				}
 
 				//v[0] is site
-				//v[1] is timestamp
+				//v[1] is id
 
 				if err = t.AddItemToQueue(v[0], v[1]); err != nil {
 					t.mu.Unlock()
