@@ -1,0 +1,24 @@
+syntax="proto3";
+
+package scheduler;
+
+option go_package="github.com/ProjectAthenaa/scheduler-service/connector";
+
+service Scheduler{
+  rpc GetScheduledTasks(User) returns (Tasks);
+}
+
+message User{
+  string ID = 1;
+}
+
+message Tasks{
+  repeated Task Tasks = 1;
+}
+
+message Task{
+  string ID = 1;
+  string SubscriptionToken = 2;
+  string ControlToken = 3;
+  int64 StartTime = 4;
+}
