@@ -18,4 +18,4 @@ COPY --from=build-env /app/scheduler /app/
 
 EXPOSE 3000 3000
 
-ENTRYPOINT ./scheduler
+ENTRYPOINT ./cmd/scheduler
