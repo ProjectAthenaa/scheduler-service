@@ -8,7 +8,7 @@ RUN mkdir /app
 ADD . /app
 WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/go-build
-RUN go build -ldflags "-s -w" -o scheduler
+RUN cd ./cmd && go build -ldflags "-s -w" -o scheduler
 
 
 # final stage
