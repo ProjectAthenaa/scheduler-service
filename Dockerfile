@@ -15,7 +15,7 @@ RUN go build -ldflags "-s -w" -o scheduler
 # final stage
 FROM alpine
 WORKDIR /app/cmd
-COPY --from=build-env /app/cmd /app/
+COPY --from=build-env /app/cmd /app/cmd
 
 EXPOSE 3000 3000
 
